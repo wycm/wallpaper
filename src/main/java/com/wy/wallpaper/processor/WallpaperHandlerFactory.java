@@ -12,7 +12,7 @@ public class WallpaperHandlerFactory {
             return new UbuntuWallpaperHandler();
         }
         if (osName.contains("windows")){
-
+            return new WindowsWallpaperHandler();
         }
         throw new RuntimeException("not support the OS");
     }

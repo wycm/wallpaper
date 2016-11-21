@@ -13,5 +13,9 @@ public interface WallpaperHandler {
      */
     public void setWallpaper(String path);
 
+    /**
+     * 设置必应每日壁纸
+     * @param bingHttpClient
+     */
     public void setTodayBingWallpaper(BingHttpClient bingHttpClient);
 }

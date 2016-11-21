@@ -26,7 +26,10 @@ public class BingHttpClient extends HttpClient {
         if (matcher.find()){
             String json = matcher.group(1);
             JSONObject jsonObject = JSON.parseObject(json);
-            url = Constants.BING_INDEX + jsonObject.get("url").toString();
+            url = jsonObject.get("url").toString();
+            if(!url.startsWith("http")){
+                url = Constants.BING_INDEX + url;
+            }
             return url;
         }
         return null;
