@@ -18,4 +18,6 @@ public class Constants {
     public static final String IMG_URL = "http://www.bing.com/az/hprichbg/rb/BlackchurchRock_ROW10941808214_1920x1080.jpg";
 
     public static final String PROJECT_NAME = "wallpaper";
+
+    public static final String DEFAULT_WALLPAPER_NAME = "default.jpg";
 }
