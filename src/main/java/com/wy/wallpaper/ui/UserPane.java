@@ -19,8 +19,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by yang.wang on 11/24/16.
@@ -30,7 +30,8 @@ public class UserPane {
     private final static WallpaperHandler handler = WallpaperHandlerFactory.createWallpaperHandler();
     private final static double WIDTH = Constants.SCREEN_WIDTH * 0.5;
     private final static double HEIGHT = Constants.SCREEN_HEIGHT * 0.5;
-    private static ImageView imageView = new ImageView();
+    private static ImageView bigImageView = new ImageView();
+    private static Map<String, ImageView> smallPicMap = new HashMap<String, ImageView>();
 
     public static void init(Stage stage) throws Exception{
         wallpaperInit();
@@ -41,35 +42,27 @@ public class UserPane {
         Label smallLabel4 = new Label("小图4");
         Label smallLabel5 = new Label("小图5");
         Label label5 = new Label("第一行第二列");
-        GridPane page = new GridPane();
+        GridPane gp = new GridPane();
         Image image = handler.getBingTodayImage();
-        imageView.setImage(image);
+        bigImageView.setImage(image);
         final ContextMenu contextMenu = new ContextMenu();
         contextMenu.getItems().add(getMenuItemForLine("设置当前图片为桌面背景", new Line()));
-        imageView.setOnMousePressed(new EventHandler<MouseEvent>() {
+        bigImageView.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 if (event.isSecondaryButtonDown()) {
-                    contextMenu.show(imageView, event.getScreenX(), event.getScreenY());
+                    contextMenu.show(bigImageView, event.getScreenX(), event.getScreenY());
                 }
             }
         });
-        imageView.setFitWidth(WIDTH * 0.8);
-        page.add(imageView, 0, 0);
-        ImageView imageView1 = new ImageView();
-        imageView1.setImage(new Image(Constants.DEFAULT_WALLPAPER_NAME));
-        imageView1.setFitHeight(HEIGHT * 0.2);
-
-        page.add(imageView1, 1, 0);
-        page.add(smallLabel2, 1, 1);
-        page.add(smallLabel3, 1, 2);
-        page.add(smallLabel4, 1, 3);
-        page.add(smallLabel5, 1, 4);
+        bigImageView.setFitWidth(WIDTH * 0.8);
+        gp.add(bigImageView, 0, 0);
+        setSmallPic(gp);
         ColumnConstraints col1Constraints = new ColumnConstraints();
         col1Constraints.setPercentWidth(80);
         ColumnConstraints col2Constraints = new ColumnConstraints();
         col2Constraints.setPercentWidth(20);
-        page.getColumnConstraints().addAll(col1Constraints, col2Constraints);
+        gp.getColumnConstraints().addAll(col1Constraints, col2Constraints);
 
         RowConstraints row1Constraints = new RowConstraints();
         row1Constraints.setPercentHeight(20);
@@ -81,9 +74,9 @@ public class UserPane {
         row4Constraints.setPercentHeight(20);
         RowConstraints row5Constraints = new RowConstraints();
         row5Constraints.setPercentHeight(20);
-        page.getRowConstraints().addAll(row1Constraints, row2Constraints, row3Constraints, row4Constraints, row5Constraints);
-        page.setStyle("-fx-background-color: white; -fx-grid-lines-visible: true");
-        Scene scene = new Scene(page, WIDTH, HEIGHT, Color.WHITE);
+        gp.getRowConstraints().addAll(row1Constraints, row2Constraints, row3Constraints, row4Constraints, row5Constraints);
+        gp.setStyle("-fx-background-color: white; -fx-grid-lines-visible: true");
+        Scene scene = new Scene(gp, WIDTH, HEIGHT, Color.WHITE);
         stage.setResizable(true);
         stage.setScene(scene);
         stage.show();
@@ -100,10 +93,28 @@ public class UserPane {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println("设置当前图片为桌面壁纸");
-                imageView.setImage(new Image(Constants.TEST_IMG_URL));
+                bigImageView.setImage(new Image(Constants.TEST_IMG_URL));
             }
         });
         return mi;
+    }
+    private static void setSmallPic(GridPane gp){
+        for(int i = 0; i < 5; i++){
+            ImageView imageView = new ImageView();
+            String id = "pic-" + i;
+            imageView.setId(id);
+            imageView.setImage(new Image(Constants.DEFAULT_WALLPAPER_NAME));
+            imageView.setFitHeight(HEIGHT * 0.2);
+            gp.add(imageView, 1, i);
+            smallPicMap.put(id, imageView);
+            imageView.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    System.out.println("点击图片：" + imageView.getId());
+                    bigImageView.setImage(smallPicMap.get(imageView.getId()).getImage());
+                }
+            });
+        }
     }
     public static void wallpaperInit(){
         new Thread(new Runnable() {
