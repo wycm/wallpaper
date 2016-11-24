@@ -2,6 +2,7 @@ package com.wy.wallpaper.processor;
 
 import com.wy.wallpaper.http.HttpClient;
 import com.wy.wallpaper.http.bing.BingHttpClient;
+import javafx.scene.image.Image;
 
 /**
  * Created by yang.wang on 11/21/16.
@@ -18,4 +19,13 @@ public interface WallpaperHandler {
      * @param bingHttpClient
      */
     public void setTodayBingWallpaper(BingHttpClient bingHttpClient);
+
+    /**
+     * 下载所有能够下载
+     * 的必应壁纸到本地（如果本地已存在，则不下载）
+     * @param bingHttpClient
+     */
+    public void downloadWallpaperToLocal(BingHttpClient bingHttpClient);
+
+    public Image getBingTodayImage();
 }

@@ -13,6 +13,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 
@@ -22,24 +24,34 @@ public class JavafxTest extends Application {
     public void start(Stage stage) {
         Scene scene = new Scene(new Group());
         stage.setTitle("Table View Sample");
-        stage.setWidth(300);
-        stage.setHeight(500);
+        stage.setWidth(800);
+        stage.setHeight(400);
 
         final Label label = new Label("Address Book");
         label.setFont(new Font("Arial", 20));
 
         table.setEditable(true);
+        TableColumn firstNameCol = new TableColumn("big pic");
+        firstNameCol.setMinWidth(600);
+        firstNameCol.setMaxWidth(600);
+        TableColumn emailCol = new TableColumn("emailCol");
 
-        TableColumn firstNameCol = new TableColumn("First Name");
-        TableColumn lastNameCol = new TableColumn("Last Name");
-        TableColumn emailCol = new TableColumn("Email");
+        table.getColumns().addAll(firstNameCol, emailCol);
+        TableColumn tableColumn1 = new TableColumn("small pic 1");
+        TableColumn tableColumn2 = new TableColumn("small pic 2");
+        TableColumn tableColumn3 = new TableColumn("small pic 3");
+        tableColumn2.getColumns().addAll(tableColumn3);
+        tableColumn1.getColumns().addAll(tableColumn2);
+        emailCol.getColumns().addAll(tableColumn1);
 
-        table.getColumns().addAll(firstNameCol, lastNameCol, emailCol);
+        WebView browser = new WebView();
+        WebEngine webEngine = browser.getEngine();
+        webEngine.load("https://www.baidu.com");
 
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
         vbox.setPadding(new Insets(10, 0, 0, 10));
-        vbox.getChildren().addAll(label, table);
+        vbox.getChildren().addAll(label, table, browser);
 
         ((Group) scene.getRoot()).getChildren().addAll(vbox);
 

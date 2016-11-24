@@ -25,6 +25,16 @@ public class FileUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    /**
+     * 根据路径，判断是否存在该文件
+     * @param filePath
+     * @return
+     */
+    public static boolean isExistFile(String filePath){
+        File file = new File(filePath);
+        boolean flag = file.exists();
+        return flag;
     }
 }

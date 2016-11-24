@@ -3,22 +3,41 @@ package com.wy.wallpaper;
 import com.wy.wallpaper.http.bing.BingHttpClient;
 import com.wy.wallpaper.processor.WallpaperHandler;
 import com.wy.wallpaper.processor.WallpaperHandlerFactory;
+import com.wy.wallpaper.ui.UserPane;
+import com.wy.wallpaper.util.Constants;
+import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Random;
+
+import static javafx.application.Application.launch;
 
 /**
  * Created by yang.wang on 11/21/16.
  */
-public class Main {
-    private static final String[] WALLPAPER_PATH = new String[]{
-            "/usr/share/backgrounds/warty-final-ubuntu.png",
-            "/usr/share/backgrounds/The_Forbidden_City_by_Daniel_Mathis.jpg",
-            "Speaker_Weave_by_Phil_Jackson.jpg"};
+public class Main extends Application{
+    @Override
+    public void start(Stage stage) throws Exception {
+        UserPane.init(stage);
+    }
+
     public static void main(String[] args){
-        BingHttpClient bingHttpClient = new BingHttpClient();
-        WallpaperHandler wh = WallpaperHandlerFactory.createWallpaperHandler();
-//        String path = WALLPAPER_PATH[new Random().nextInt(WALLPAPER_PATH.length)];
-//        wh.setWallpaper(path);
-        wh.setTodayBingWallpaper(bingHttpClient);
+        launch(args);
     }
 }
