@@ -2,23 +2,33 @@ package com.wy.wallpaper.jfx;
 
 import com.wy.wallpaper.util.Constants;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 /**
  * Created by yang.wang on 11/23/16.
  */
 public class GirdPaneTest1 extends Application{
-    private final static double WIDTH = 800 * 1.25;
-    private final static double HEIGHT = 450;
+    private final static double WIDTH = Constants.SCREEN_WIDTH * 0.5;
+    private final static double HEIGHT = Constants.SCREEN_HEIGHT * 0.5;
+    private ImageView imageView = new ImageView();
     @Override
     public void start(Stage stage) throws Exception {
         Label label1 = new Label("大图");
@@ -31,8 +41,24 @@ public class GirdPaneTest1 extends Application{
         GridPane page = new GridPane();
         Image image = new Image(Constants.DEFAULT_WALLPAPER_NAME);
 //        Image image = new Image(Constants.IMG_URL, WIDTH * 0.8 ,0 ,false, true);
-        ImageView imageView = new ImageView();
+//        ImageView imageView = new ImageView();
         imageView.setImage(image);
+
+        final AnchorPane pane = new AnchorPane();
+        final ContextMenu contextMenu = new ContextMenu();
+//        MenuItem cut = new MenuItem("设置当前图片为桌面背景");
+//        MenuItem copy = new MenuItem("Copy");
+//        MenuItem paste = new MenuItem("Paste");
+//        contextMenu.getItems().addAll(cut, copy, paste);
+        contextMenu.getItems().add(getMenuItemForLine("设置当前图片为桌面背景", new Line()));
+        imageView.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.isSecondaryButtonDown()) {
+                    contextMenu.show(imageView, event.getScreenX(), event.getScreenY());
+                }
+            }
+        });
         //按比例缩放
 //        imageView.setPreserveRatio(true);
         imageView.setFitWidth(WIDTH * 0.8);
@@ -70,6 +96,37 @@ public class GirdPaneTest1 extends Application{
         stage.setResizable(true);
         stage.setScene(scene);
         stage.show();
+    }
+    private MenuItem getMenuItemForLine(String menuName, final Line line) {
+
+        Label menuLabel = new Label(menuName);
+        // apply style to occupy larger space for label
+        menuLabel.setStyle("-fx-padding: 5 10 5 10");
+        MenuItem mi = new MenuItem();
+        mi.setGraphic(menuLabel);
+        line.setStroke(Color.BLUE);
+
+        menuLabel.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println("进入当前label");
+            }
+        });
+
+        menuLabel.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println("退出当前label");
+            }
+        });
+        menuLabel.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println("设置当前图片为桌面壁纸");
+                imageView.setImage(new Image(Constants.IMG_URL));
+            }
+        });
+        return mi;
     }
     public static void main(String[] args){
         launch(args);

@@ -20,4 +20,8 @@ public class Constants {
     public static final String PROJECT_NAME = "wallpaper";
 
     public static final String DEFAULT_WALLPAPER_NAME = "default.jpg";
+
+    public static final int SCREEN_WIDTH = ((int)java.awt.Toolkit.getDefaultToolkit().getScreenSize().width);
+
+    public static final int SCREEN_HEIGHT = ((int)java.awt.Toolkit.getDefaultToolkit().getScreenSize().height);
 }
