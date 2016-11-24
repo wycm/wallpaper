@@ -24,4 +24,6 @@ public class Constants {
     public static final int SCREEN_WIDTH = ((int)java.awt.Toolkit.getDefaultToolkit().getScreenSize().width);
 
     public static final int SCREEN_HEIGHT = ((int)java.awt.Toolkit.getDefaultToolkit().getScreenSize().height);
+
+    public static final String USER_HOME = System.getProperty("user.home");
 }

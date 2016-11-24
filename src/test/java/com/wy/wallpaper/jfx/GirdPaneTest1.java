@@ -22,6 +22,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileInputStream;
+
 /**
  * Created by yang.wang on 11/23/16.
  */
@@ -39,9 +42,8 @@ public class GirdPaneTest1 extends Application{
         Label smallLabel5 = new Label("小图5");
         Label label5 = new Label("第一行第二列");
         GridPane page = new GridPane();
-        Image image = new Image(Constants.DEFAULT_WALLPAPER_NAME);
-//        Image image = new Image(Constants.IMG_URL, WIDTH * 0.8 ,0 ,false, true);
-//        ImageView imageView = new ImageView();
+//        Image image = new Image(Constants.DEFAULT_WALLPAPER_NAME);
+        Image image = new Image(new FileInputStream(new File("/wy/2.jpg")));
         imageView.setImage(image);
 
         final AnchorPane pane = new AnchorPane();
