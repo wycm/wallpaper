@@ -5,8 +5,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -19,7 +17,7 @@ public class ImageViewTest extends Application{
     public void start(Stage primaryStage) {
 
         // 创建Image和ImageView对象
-        Image image = new Image(Constants.IMG_URL, 600 ,400 ,false, true);
+        Image image = new Image(Constants.TEST_IMG_URL, 600 ,400 ,false, true);
 //        new Image()
         ImageView imageView = new ImageView();
         imageView.setImage(image);

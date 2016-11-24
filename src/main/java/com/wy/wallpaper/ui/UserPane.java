@@ -1,7 +1,9 @@
-package com.wy.wallpaper.jfx;
+package com.wy.wallpaper.ui;
 
+import com.wy.wallpaper.http.bing.BingHttpClient;
+import com.wy.wallpaper.processor.WallpaperHandler;
+import com.wy.wallpaper.processor.WallpaperHandlerFactory;
 import com.wy.wallpaper.util.Constants;
-import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
@@ -10,7 +12,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -22,14 +23,17 @@ import java.io.File;
 import java.io.FileInputStream;
 
 /**
- * Created by yang.wang on 11/23/16.
+ * Created by yang.wang on 11/24/16.
  */
-public class GirdPaneTest1 extends Application{
+public class UserPane {
+    private final static BingHttpClient bingHttpClient = new BingHttpClient();
+    private final static WallpaperHandler handler = WallpaperHandlerFactory.createWallpaperHandler();
     private final static double WIDTH = Constants.SCREEN_WIDTH * 0.5;
     private final static double HEIGHT = Constants.SCREEN_HEIGHT * 0.5;
-    private ImageView imageView = new ImageView();
-    @Override
-    public void start(Stage stage) throws Exception {
+    private static ImageView imageView = new ImageView();
+
+    public static void init(Stage stage) throws Exception{
+        wallpaperInit();
         Label label1 = new Label("大图");
         Label smallLabel1 = new Label("小图1");
         Label smallLabel2 = new Label("小图2");
@@ -38,16 +42,9 @@ public class GirdPaneTest1 extends Application{
         Label smallLabel5 = new Label("小图5");
         Label label5 = new Label("第一行第二列");
         GridPane page = new GridPane();
-//        Image image = new Image(Constants.DEFAULT_WALLPAPER_NAME);
-        Image image = new Image(new FileInputStream(new File("/wy/2.jpg")));
+        Image image = handler.getBingTodayImage();
         imageView.setImage(image);
-
-        final AnchorPane pane = new AnchorPane();
         final ContextMenu contextMenu = new ContextMenu();
-//        MenuItem cut = new MenuItem("设置当前图片为桌面背景");
-//        MenuItem copy = new MenuItem("Copy");
-//        MenuItem paste = new MenuItem("Paste");
-//        contextMenu.getItems().addAll(cut, copy, paste);
         contextMenu.getItems().add(getMenuItemForLine("设置当前图片为桌面背景", new Line()));
         imageView.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -57,10 +54,7 @@ public class GirdPaneTest1 extends Application{
                 }
             }
         });
-        //按比例缩放
-//        imageView.setPreserveRatio(true);
         imageView.setFitWidth(WIDTH * 0.8);
-//        imageView.setFitHeight(WIDTH);
         page.add(imageView, 0, 0);
         ImageView imageView1 = new ImageView();
         imageView1.setImage(new Image(Constants.DEFAULT_WALLPAPER_NAME));
@@ -71,7 +65,6 @@ public class GirdPaneTest1 extends Application{
         page.add(smallLabel3, 1, 2);
         page.add(smallLabel4, 1, 3);
         page.add(smallLabel5, 1, 4);
-//        page.setRowSpan(imageView, 5);
         ColumnConstraints col1Constraints = new ColumnConstraints();
         col1Constraints.setPercentWidth(80);
         ColumnConstraints col2Constraints = new ColumnConstraints();
@@ -95,7 +88,7 @@ public class GirdPaneTest1 extends Application{
         stage.setScene(scene);
         stage.show();
     }
-    private MenuItem getMenuItemForLine(String menuName, final Line line) {
+    private static MenuItem getMenuItemForLine(String menuName, final Line line) {
 
         Label menuLabel = new Label(menuName);
         // apply style to occupy larger space for label
@@ -103,20 +96,6 @@ public class GirdPaneTest1 extends Application{
         MenuItem mi = new MenuItem();
         mi.setGraphic(menuLabel);
         line.setStroke(Color.BLUE);
-
-        menuLabel.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println("进入当前label");
-            }
-        });
-
-        menuLabel.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println("退出当前label");
-            }
-        });
         menuLabel.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -126,7 +105,12 @@ public class GirdPaneTest1 extends Application{
         });
         return mi;
     }
-    public static void main(String[] args){
-        launch(args);
+    public static void wallpaperInit(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                handler.downloadWallpaperToLocal(bingHttpClient);
+            }
+        }).start();
     }
 }
