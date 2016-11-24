@@ -20,7 +20,7 @@ public class Constants {
      * 最近18天壁纸信息
      * 最多只能返回18天的壁纸信息
      */
-    public static final String BING_IMGS_URL = "http://www.bing.com/HPImageArchive.aspx?format=js&idx=18&n=2";
+    public static final String BING_IMGS_URL = "http://www.bing.com/HPImageArchive.aspx?format=js&idx=16&n=2";
 
     public static final String PROJECT_DIR = "/wallpaper";
 
