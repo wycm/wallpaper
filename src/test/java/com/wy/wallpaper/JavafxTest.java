@@ -44,7 +44,8 @@ public class JavafxTest extends Application {
         ((Group) scene.getRoot()).getChildren().addAll(vbox);
 
         stage.setScene(scene);
-        stage.show();
+//        stage.show();
+
     }
 
     public static void main(String[] args) {
