@@ -35,16 +35,19 @@ import java.util.Map;
 public class UserPane {
     private final static BingHttpClient bingHttpClient = new BingHttpClient();
     private final static WallpaperHandler handler = WallpaperHandlerFactory.createWallpaperHandler();
-    private final static double WIDTH = Constants.SCREEN_WIDTH * 0.5;
-    private final static double HEIGHT = Constants.SCREEN_HEIGHT * 0.5;
+    private final static double WIDTH = Constants.SCREEN_WIDTH * 0.6;
+    private final static double HEIGHT = Constants.SCREEN_HEIGHT * 0.6;
     private static ImageView imageView = new ImageView();
     private static Map<String, ImageView> smallPicMap = new HashMap<String, ImageView>();
     private static String currentId = "";
     public static void init(Stage stage) throws Exception{
         wallpaperInit();
         GridPane gp = new GridPane();
-        Image image = handler.getBingTodayImage();
-        imageView.setImage(image);
+//        Image image = handler.getBingTodayImage();
+        String imageFilePath = handler.getBingTodayImgFilePath();
+        imageView.setImage(new Image(new FileInputStream(new File(imageFilePath))));
+        currentId = imageFilePath;
+//        imageView.setImage(image);
         final ContextMenu contextMenu = new ContextMenu();
         contextMenu.getItems().add(getMenuItemForLine("设置当前图片为桌面背景", new Line()));
         imageView.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -81,7 +84,7 @@ public class UserPane {
         RowConstraints row5Constraints = new RowConstraints();
         row5Constraints.setPercentHeight(20);
         gp.getRowConstraints().addAll(row1Constraints, row2Constraints, row3Constraints, row4Constraints, row5Constraints);
-        gp.setStyle("-fx-background-color: white; -fx-grid-lines-visible: true");
+//        gp.setStyle("-fx-background-color: white; -fx-grid-lines-visible: true");
         Scene scene = new Scene(gp, WIDTH, HEIGHT, Color.WHITE);
         stage.setResizable(true);
         stage.setScene(scene);
@@ -100,7 +103,6 @@ public class UserPane {
             @Override
             public void handle(MouseEvent event) {
                 System.out.println("设置当前图片为桌面壁纸");
-//                imageView.setImage(new Image(Constants.TEST_IMG_URL));
                 handler.setWallpaper(currentId);
             }
         });

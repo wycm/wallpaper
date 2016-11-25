@@ -88,12 +88,21 @@ public abstract class SimpleWallpaperHandler implements WallpaperHandler{
      */
     @Override
     public Image getBingTodayImage(){
+        Image image = null;
+        try {
+            image = new Image(new FileInputStream(new File(getBingTodayImgFilePath())));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return image;
+    }
+    public String getBingTodayImgFilePath(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_YEAR, -1);
         String todayDate = sdf.format(calendar.getTime());
-        String filePath = Constants.USER_HOME + "/"
-                + Constants.PROJECT_DIR + "/"
+        String filePath = Constants.USER_HOME
+                + Constants.PROJECT_DIR
                 + Constants.BING_DAILY_WALLPAPER_DIR
                 + "/" + todayDate + ".jpg";
         while (true){
@@ -107,13 +116,6 @@ public abstract class SimpleWallpaperHandler implements WallpaperHandler{
             }
             break;
         }
-        Image image = null;
-        try {
-            image = new Image(new FileInputStream(new File(filePath)));
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return image;
+        return filePath;
     }
 }
