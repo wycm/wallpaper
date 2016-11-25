@@ -10,8 +10,8 @@
 
 ##工程导入(maven)
 * git clone https://github.com/wycm/wallpaper 克隆项目到本地 
-* **eclipse**导入步骤(eclipse_kepler版本，自带maven)，File->Import->Maven->Existing Maven Projects->选择刚刚clone的zhihu-crawler目录->导入成功
-* **idea**导入步骤,File->Open->选择刚刚clone的zhihu-crawler目录->导入成功
+* **eclipse**导入步骤(eclipse_kepler版本，自带maven)，File->Import->Maven->Existing Maven Projects->选择刚刚clone的wallpaper目录->导入成功
+* **idea**导入步骤,File->Open->选择刚刚clone的wallpaper目录->导入成功
 
 ##start
 * Run with [Main.java](https://github.com/wycm/wallpaper/blob/master/src/main/java/com/wy/wallpaper/Main.java)
