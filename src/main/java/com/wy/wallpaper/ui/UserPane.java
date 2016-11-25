@@ -14,6 +14,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -50,6 +51,13 @@ public class UserPane {
 //        imageView.setImage(image);
         final ContextMenu contextMenu = new ContextMenu();
         contextMenu.getItems().add(getMenuItemForLine("设置当前图片为桌面背景", new Line()));
+
+        initSmallImageView(gp);
+        ColumnConstraints col1Constraints = new ColumnConstraints();
+        col1Constraints.setPercentWidth(80);
+        ColumnConstraints col2Constraints = new ColumnConstraints();
+        col2Constraints.setPercentWidth(20);
+        gp.getColumnConstraints().addAll(col1Constraints, col2Constraints);
         imageView.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -60,18 +68,9 @@ public class UserPane {
         });
         imageView.setFitWidth(WIDTH * 0.8);
         imageView.setFitHeight(HEIGHT);
-
-        imageView.fitHeightProperty().bind(gp.widthProperty());
+        imageView.fitHeightProperty().bind(gp.heightProperty());
         gp.add(imageView, 0, 0);
-        gp.setColumnSpan(imageView, 4);
-        initSmallImageView(gp);
-        ColumnConstraints col1Constraints = new ColumnConstraints();
-        col1Constraints.setPercentWidth(80);
-        ColumnConstraints col2Constraints = new ColumnConstraints();
-        col2Constraints.setPercentWidth(20);
-        gp.getColumnConstraints().addAll(col1Constraints, col2Constraints);
-
-//        imageView.fitWidthProperty().bind(col1Constraints.maxWidthProperty());
+        gp.setRowSpan(imageView, 5);
 
         RowConstraints row1Constraints = new RowConstraints();
         row1Constraints.setPercentHeight(20);
@@ -90,6 +89,7 @@ public class UserPane {
         stage.setScene(scene);
         stage.show();
         stage.setTitle("wallpaper");
+        stage.setResizable(false);
     }
     private static MenuItem getMenuItemForLine(String menuName, final Line line) {
 
