@@ -44,7 +44,7 @@ public abstract class SimpleWallpaperHandler implements WallpaperHandler{
         Calendar calendar = Calendar.getInstance();
         //最近10天的壁纸都存在情况下，不更新壁纸
         boolean downloadFlag = false;
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 7; i++){
             calendar.add(Calendar.DAY_OF_YEAR, -1);
             String date = sdf.format(calendar.getTime());
             String filePath = getBingWallpaperPath() + date + ".jpg";
@@ -99,7 +99,7 @@ public abstract class SimpleWallpaperHandler implements WallpaperHandler{
     public String getBingTodayImgFilePath(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR, -1);
+//        calendar.add(Calendar.DAY_OF_YEAR, -1);
         String todayDate = sdf.format(calendar.getTime());
         String filePath = Constants.USER_HOME
                 + Constants.PROJECT_DIR

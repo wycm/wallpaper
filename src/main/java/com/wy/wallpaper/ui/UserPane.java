@@ -47,6 +47,7 @@ public class UserPane {
 //        Image image = handler.getBingTodayImage();
         String imageFilePath = handler.getBingTodayImgFilePath();
         imageView.setImage(new Image(new FileInputStream(new File(imageFilePath))));
+//        imageView.setImage(new Image("loading.gif"));
         currentId = imageFilePath;
 //        imageView.setImage(image);
         final ContextMenu contextMenu = new ContextMenu();
@@ -111,8 +112,8 @@ public class UserPane {
     private static void initSmallImageView(GridPane gp){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, -1);
         for(int i = 0; i < 5; i++){
-            calendar.add(Calendar.DAY_OF_YEAR, -2);
             ImageView im = new ImageView();
             String bingWPPath = Constants.USER_HOME + Constants.PROJECT_DIR + Constants.BING_DAILY_WALLPAPER_DIR;
             String filePath = bingWPPath + "/" + sdf.format(calendar.getTime()) + ".jpg";
@@ -132,7 +133,7 @@ public class UserPane {
             im.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    System.out.println("slect pic:" + im.getId());
+                    System.out.println("select pic:" + im.getId());
                     imageView.setImage(smallPicMap.get(im.getId()).getImage());
                     currentId = im.getId();
                 }
@@ -140,11 +141,6 @@ public class UserPane {
         }
     }
     public static void wallpaperInit(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                handler.downloadWallpaperToLocal(bingHttpClient);
-            }
-        }).start();
+        handler.downloadWallpaperToLocal(bingHttpClient);
     }
 }
