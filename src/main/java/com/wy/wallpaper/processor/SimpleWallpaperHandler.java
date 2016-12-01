@@ -99,7 +99,7 @@ public abstract class SimpleWallpaperHandler implements WallpaperHandler{
     public String getBingTodayImgFilePath(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         Calendar calendar = Calendar.getInstance();
-//        calendar.add(Calendar.DAY_OF_YEAR, -1);
+        calendar.add(Calendar.DAY_OF_YEAR, -1);
         String todayDate = sdf.format(calendar.getTime());
         String filePath = Constants.USER_HOME
                 + Constants.PROJECT_DIR
