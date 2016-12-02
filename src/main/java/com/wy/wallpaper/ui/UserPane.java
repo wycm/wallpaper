@@ -35,12 +35,23 @@ import java.util.Map;
  */
 public class UserPane {
     private final static BingHttpClient bingHttpClient = new BingHttpClient();
+
     private final static WallpaperHandler handler = WallpaperHandlerFactory.createWallpaperHandler();
+
     private final static double WIDTH = Constants.SCREEN_WIDTH * 0.6;
+
     private final static double HEIGHT = Constants.SCREEN_HEIGHT * 0.6;
+
     private static ImageView imageView = new ImageView();
+
     private static Map<String, ImageView> smallPicMap = new HashMap<String, ImageView>();
+
     private static String currentId = "";
+    /**
+     * 右键菜单显示标志
+     */
+    private static boolean rightMenuShowFlag = false;
+
     public static void init(Stage stage) throws Exception{
         wallpaperInit();
         GridPane gp = new GridPane();
@@ -63,7 +74,20 @@ public class UserPane {
             @Override
             public void handle(MouseEvent event) {
                 if (event.isSecondaryButtonDown()) {
+                    /**
+                     * 鼠标右键事件
+                     */
                     contextMenu.show(imageView, event.getScreenX(), event.getScreenY());
+                    rightMenuShowFlag = true;
+                }
+                if (event.isPrimaryButtonDown()){
+                    /**
+                     * 鼠标左键事件
+                     */
+                    if (rightMenuShowFlag){
+                        contextMenu.hide();
+                        rightMenuShowFlag = false;
+                    }
                 }
             }
         });
