@@ -5,8 +5,7 @@
 * jdk1.8
 
 ##功能
-* 将必应壁纸设置为桌面背景（目前仅测试了Ubuntu和Windows10系统）
-* 每日自动更新（开发中）
+* 设置必应壁纸为桌面背景（目前仅测试了Ubuntu和Windows10系统）
 
 ##工程导入(maven)
 * git clone https://github.com/wycm/wallpaper 克隆项目到本地 
