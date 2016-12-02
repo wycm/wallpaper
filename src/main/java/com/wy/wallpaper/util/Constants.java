@@ -17,10 +17,10 @@ public class Constants {
      */
     public static final String TEST_IMG_URL = "http://www.bing.com/az/hprichbg/rb/BlackchurchRock_ROW10941808214_1920x1080.jpg";
     /**
-     * 最近18天壁纸信息
-     * 最多只能返回18天的壁纸信息
+     * 最近8天壁纸信息
+     * 最多只能返回8天的壁纸信息
      */
-    public static final String BING_IMGS_URL = "http://www.bing.com/HPImageArchive.aspx?format=js&idx=18&n=2";
+    public static final String BING_IMGS_URL = "http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=8";
 
     public static final String PROJECT_DIR = "/wallpaper";
 

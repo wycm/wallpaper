@@ -28,4 +28,6 @@ public interface WallpaperHandler {
     public void downloadWallpaperToLocal(BingHttpClient bingHttpClient);
 
     public Image getBingTodayImage();
+
+    public String getBingTodayImgFilePath();
 }

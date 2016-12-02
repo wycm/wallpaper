@@ -52,7 +52,11 @@ public class BingHttpClient extends HttpClient {
         Object[] bingImages =  images.toArray();
         for(Object t : bingImages){
             BingImage bi = JSON.toJavaObject((JSONObject) t, BingImage.class);
-            bi.setUrl(Constants.BING_INDEX + bi.getUrl());
+            String url = bi.getUrl();
+            if(!url.startsWith("http")){
+                url = Constants.BING_INDEX + url;
+            }
+            bi.setUrl(url);
             map.put(bi.getStartdate(), bi);
         }
         return map;
