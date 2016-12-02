@@ -4,6 +4,8 @@ import com.wy.wallpaper.http.bing.BingHttpClient;
 import com.wy.wallpaper.processor.WallpaperHandler;
 import com.wy.wallpaper.processor.WallpaperHandlerFactory;
 import com.wy.wallpaper.util.Constants;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.geometry.Rectangle2D;
@@ -14,13 +16,11 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
+
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,6 +52,35 @@ public class UserPane {
      */
     private static boolean rightMenuShowFlag = false;
 
+    public static void initLoading(Stage stage){
+        BorderPane bp = new BorderPane();
+        imageView = new ImageView("loading.gif");
+        bp.setCenter(imageView);
+        Scene scene = new Scene(bp, WIDTH, HEIGHT, Color.WHITE);
+        stage.setResizable(true);
+        stage.setScene(scene);
+        stage.setTitle("wallpaper");
+        stage.setResizable(false);
+        stage.show();
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                init(stage);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                return null;
+            }
+        };
+        task.run();
+    }
+
     public static void init(Stage stage) throws Exception{
         wallpaperInit();
         GridPane gp = new GridPane();
@@ -63,7 +92,6 @@ public class UserPane {
 //        imageView.setImage(image);
         final ContextMenu contextMenu = new ContextMenu();
         contextMenu.getItems().add(getMenuItemForLine("设置当前图片为桌面背景", new Line()));
-
         initSmallImageView(gp);
         ColumnConstraints col1Constraints = new ColumnConstraints();
         col1Constraints.setPercentWidth(80);

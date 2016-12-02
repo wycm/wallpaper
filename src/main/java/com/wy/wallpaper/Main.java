@@ -10,7 +10,8 @@ import javafx.stage.Stage;
 public class Main extends Application{
     @Override
     public void start(Stage stage) throws Exception {
-        UserPane.init(stage);
+//        UserPane.init(stage);
+        UserPane.initLoading(stage);
     }
 
     public static void main(String[] args){
