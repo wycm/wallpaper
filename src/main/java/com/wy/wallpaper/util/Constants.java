@@ -33,4 +33,8 @@ public class Constants {
     public static final int SCREEN_HEIGHT = ((int)java.awt.Toolkit.getDefaultToolkit().getScreenSize().height);
 
     public static final String USER_HOME = System.getProperty("user.home");
+    /**
+     * windows 开机启动路径
+     */
+    public static final String WIN_STARTUP_DIR = USER_HOME + "/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup";
 }

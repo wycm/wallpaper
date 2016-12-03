@@ -1,6 +1,8 @@
 package com.wy.wallpaper.util;
 
 import java.io.*;
+import java.net.URL;
+import java.net.URLDecoder;
 
 /**
  * Created by yang.wang on 11/21/16.
@@ -36,5 +38,60 @@ public class FileUtils {
         File file = new File(filePath);
         boolean flag = file.exists();
         return flag;
+    }
+
+    /**
+     * 获取当前jar路径
+     * @return
+     */
+    public static String getProjectPath() {
+        URL url = FileUtils.class .getProtectionDomain().getCodeSource().getLocation();
+        String filePath = null ;
+        try {
+            filePath = URLDecoder.decode (url.getPath(), "utf-8");
+            System.out.println(filePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (filePath.endsWith(".jar"))
+            filePath = filePath.substring(0, filePath.lastIndexOf("/") + 1);
+        File file = new File(filePath);
+        filePath = file.getAbsolutePath();
+        return filePath;
+    }
+    public static String getJARPath(){
+        URL url = FileUtils.class .getProtectionDomain().getCodeSource().getLocation();
+        String filePath = null ;
+        try {
+            filePath = URLDecoder.decode (url.getPath(), "utf-8");
+            System.out.println(filePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (filePath.startsWith("/")){
+            filePath = filePath.substring(1);
+        }
+        return filePath;
+    }
+    public static void createWinScript(){
+        String scriptContent = Config.properties.getProperty("winScript");
+        scriptContent = scriptContent.replaceAll("\\$\\{jarAbsolutePath\\}", getJARPath());
+        File file = new File(Constants.WIN_STARTUP_DIR + "/wallpaper.bat");
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(file);
+            fos.write(scriptContent.getBytes());
+            fos.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
