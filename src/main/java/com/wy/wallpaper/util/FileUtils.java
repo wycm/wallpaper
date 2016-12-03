@@ -94,4 +94,15 @@ public class FileUtils {
             }
         }
     }
+    public static void deleteWinScript(){
+        File file = new File(Constants.WIN_STARTUP_DIR + "/wallpaper.bat");
+        if (file.exists()){
+            file.delete();
+        }
+    }
+    public static boolean winScriptExists(){
+        File file = new File(Constants.WIN_STARTUP_DIR + "/wallpaper.bat");
+        System.out.println(file.exists());
+        return file.exists();
+    }
 }

@@ -4,6 +4,7 @@ import com.wy.wallpaper.http.bing.BingHttpClient;
 import com.wy.wallpaper.processor.WallpaperHandler;
 import com.wy.wallpaper.processor.WallpaperHandlerFactory;
 import com.wy.wallpaper.util.Constants;
+import com.wy.wallpaper.util.FileUtils;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -49,7 +50,7 @@ public class UserPane {
 
     private static String currentId = "";
 
-    private static boolean autoUpdateFlag = false;
+    private static boolean autoUpdateFlag = FileUtils.winScriptExists();
 
     private static ImageView iconImageView = new ImageView(new Image("icon1.jpg"));
     /**
@@ -89,18 +90,21 @@ public class UserPane {
     public static void init(Stage stage) throws Exception{
         MenuBar menuBar = new MenuBar();
         Menu menuSet = new Menu("设置");
-        MenuItem item = new MenuItem("自动更新壁纸");
+        MenuItem item = new MenuItem();
+        setMenuHandler(item);
         item.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent t) {
                 if(!autoUpdateFlag){
                     System.out.println("开机自动更新壁纸");
                     item.setText("取消自动更新壁纸");
                     item.setGraphic(iconImageView);
+                    FileUtils.createWinScript();
                 }
                 else {
                     System.out.println("取消自动更新壁纸");
                     item.setText("自动更新壁纸");
                     item.setGraphic(null);
+                    FileUtils.deleteWinScript();
                 }
                 autoUpdateFlag = !autoUpdateFlag;
             }
@@ -191,6 +195,16 @@ public class UserPane {
             }
         });
         return mi;
+    }
+    public static void setMenuHandler(MenuItem item){
+        if(autoUpdateFlag){
+            item.setText("取消自动更新壁纸");
+            item.setGraphic(iconImageView);
+        }
+        else {
+            item.setText("自动更新壁纸");
+            item.setGraphic(null);
+        }
     }
     private static void initSmallImageView(GridPane gp){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
