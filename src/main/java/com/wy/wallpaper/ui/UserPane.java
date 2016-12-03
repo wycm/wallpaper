@@ -6,13 +6,14 @@ import com.wy.wallpaper.processor.WallpaperHandlerFactory;
 import com.wy.wallpaper.util.Constants;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -47,6 +48,10 @@ public class UserPane {
     private static Map<String, ImageView> smallPicMap = new HashMap<String, ImageView>();
 
     private static String currentId = "";
+
+    private static boolean autoUpdateFlag = false;
+
+    private static ImageView iconImageView = new ImageView(new Image("icon1.jpg"));
     /**
      * 右键菜单显示标志
      */
@@ -82,6 +87,26 @@ public class UserPane {
     }
 
     public static void init(Stage stage) throws Exception{
+        MenuBar menuBar = new MenuBar();
+        Menu menuSet = new Menu("设置");
+        MenuItem item = new MenuItem("自动更新壁纸");
+        item.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent t) {
+                if(!autoUpdateFlag){
+                    System.out.println("开机自动更新壁纸");
+                    item.setText("取消自动更新壁纸");
+                    item.setGraphic(iconImageView);
+                }
+                else {
+                    System.out.println("取消自动更新壁纸");
+                    item.setText("自动更新壁纸");
+                    item.setGraphic(null);
+                }
+                autoUpdateFlag = !autoUpdateFlag;
+            }
+        });
+        menuSet.getItems().add(item);
+        menuBar.getMenus().addAll(menuSet);
         wallpaperInit();
         GridPane gp = new GridPane();
 //        Image image = handler.getBingTodayImage();
@@ -124,7 +149,7 @@ public class UserPane {
         imageView.fitHeightProperty().bind(gp.heightProperty());
         gp.add(imageView, 0, 0);
         gp.setRowSpan(imageView, 5);
-
+        gp.setAlignment(Pos.TOP_LEFT);
         RowConstraints row1Constraints = new RowConstraints();
         row1Constraints.setPercentHeight(20);
         RowConstraints row2Constraints = new RowConstraints();
@@ -137,7 +162,13 @@ public class UserPane {
         row5Constraints.setPercentHeight(20);
         gp.getRowConstraints().addAll(row1Constraints, row2Constraints, row3Constraints, row4Constraints, row5Constraints);
 //        gp.setStyle("-fx-background-color: white; -fx-grid-lines-visible: true");
+//        VBox vBox = new VBox();
+//        GridPane gp1 = new GridPane();
+//        vBox.getChildren().addAll(gp, gp1);
         Scene scene = new Scene(gp, WIDTH, HEIGHT, Color.WHITE);
+        gp.add(menuBar, 0, 0);
+        gp.setColumnSpan(menuBar, 2);
+        GridPane.setMargin(menuBar, new Insets(0, 0, 110, 0));
         stage.setResizable(true);
         stage.setScene(scene);
         stage.show();
