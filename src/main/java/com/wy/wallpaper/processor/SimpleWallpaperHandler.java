@@ -17,6 +17,7 @@ import java.util.*;
  */
 public abstract class SimpleWallpaperHandler implements WallpaperHandler{
     private volatile boolean todayWPExist = false;
+
     /**
      * 必应每日壁纸
      * 直接下载
@@ -24,13 +25,11 @@ public abstract class SimpleWallpaperHandler implements WallpaperHandler{
      */
     @Override
     public void setTodayBingWallpaper(BingHttpClient bingHttpClient){
-        String url = bingHttpClient.getTodayWallpaperUrl();
+        BingImage currentBingImage = bingHttpClient.getLatestWallpaper();
         String path = getBingWallpaperPath();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        String date = sdf.format(Calendar.getInstance().getTime());
-        String fileName = date + ".jpg";
+        String fileName = currentBingImage.getStartdate() + ".jpg";
         String filePath = path + fileName;
-        bingHttpClient.downloadFile(url, path, fileName, false);
+        bingHttpClient.downloadFile(currentBingImage.getUrl(), path, fileName, false);
         setWallpaper(filePath);
     }
 
@@ -70,7 +69,7 @@ public abstract class SimpleWallpaperHandler implements WallpaperHandler{
             String fileName = date + ".jpg";
             String filePath = path + fileName;
             if(!FileUtils.isExistFile(filePath)){
-                bingHttpClient.downloadFile(map.get(date).getUrl(),path, fileName, false);
+                bingHttpClient.downloadFile(map.get(date).getUrl(), path, fileName, false);
                 todayWPExist = true;
             }
         }
@@ -87,24 +86,23 @@ public abstract class SimpleWallpaperHandler implements WallpaperHandler{
      * @return
      */
     @Override
-    public Image getBingTodayImage(){
+    public Image getBingTodayImage(BingHttpClient bingHttpClient){
         Image image = null;
         try {
-            image = new Image(new FileInputStream(new File(getBingTodayImgFilePath())));
+            image = new Image(new FileInputStream(new File(getBingLatestImgFilePath(bingHttpClient))));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         return image;
     }
-    public String getBingTodayImgFilePath(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+    public String getBingLatestImgFilePath(BingHttpClient bingHttpClient){
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_YEAR, -1);
-        String todayDate = sdf.format(calendar.getTime());
+        BingImage bi = bingHttpClient.getLatestWallpaper();
         String filePath = Constants.USER_HOME
                 + Constants.PROJECT_DIR
                 + Constants.BING_DAILY_WALLPAPER_DIR
-                + "/" + todayDate + ".jpg";
+                + "/" + bi.getStartdate() + ".jpg";
         while (true){
             try {
                 Thread.sleep(100);

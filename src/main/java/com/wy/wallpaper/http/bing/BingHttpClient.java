@@ -9,8 +9,7 @@ import com.wy.wallpaper.http.HttpClient;
 import com.wy.wallpaper.util.Constants;
 import com.wy.wallpaper.util.HttpClientUtil;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,10 +17,15 @@ import java.util.regex.Pattern;
  * Created by yang.wang on 11/21/16.
  */
 public class BingHttpClient extends HttpClient {
-
+    private Map<String, BingImage> latestBingImageInfoMap = null;
     @Override
     public void initHttpClient() {
     }
+
+    /**
+     * 根据bing首页获取最新壁纸的url
+     * @return
+     */
     public String getTodayWallpaperUrl(){
         Page page = getWebPage(Constants.BING_INDEX);
         Pattern pattern = Pattern.compile(Constants.IMG_REGEX);
@@ -40,10 +44,24 @@ public class BingHttpClient extends HttpClient {
     }
 
     /**
+     * 获取最新壁纸
+     * @return
+     */
+    public BingImage getLatestWallpaper(){
+        Map<String, BingImage> map = getLatestWallpaperInfo();
+        List<String> list = new ArrayList<String>(map.size());
+        list.addAll(map.keySet());
+        Collections.sort(list);
+        return map.get(list.get(list.size() - 1));
+    }
+    /**
      * 获取最近几天必应壁纸信息
      * @return map<日期(yyyyMMdd), 当天壁纸信息>
      */
     public Map<String, BingImage> getLatestWallpaperInfo(){
+        if(latestBingImageInfoMap != null){
+            return latestBingImageInfoMap;
+        }
         Map<String, BingImage> map = new HashMap<String, BingImage>();
         Page page = getWebPage(Constants.BING_IMGS_URL);
         String json = page.getHtml();
@@ -59,6 +77,7 @@ public class BingHttpClient extends HttpClient {
             bi.setUrl(url);
             map.put(bi.getStartdate(), bi);
         }
+        latestBingImageInfoMap = map;
         return map;
     }
 }

@@ -9,10 +9,8 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -36,7 +34,7 @@ import java.util.Map;
  * Created by yang.wang on 11/24/16.
  */
 public class UserPane {
-    private final static BingHttpClient bingHttpClient = new BingHttpClient();
+    private final static BingHttpClient bingHttpClient  = new BingHttpClient();
 
     private final static WallpaperHandler handler = WallpaperHandlerFactory.createWallpaperHandler();
 
@@ -114,7 +112,7 @@ public class UserPane {
         wallpaperInit();
         GridPane gp = new GridPane();
 //        Image image = handler.getBingTodayImage();
-        String imageFilePath = handler.getBingTodayImgFilePath();
+        String imageFilePath = handler.getBingLatestImgFilePath(bingHttpClient);
         imageView.setImage(new Image(new FileInputStream(new File(imageFilePath))));
 //        imageView.setImage(new Image("loading.gif"));
         currentId = imageFilePath;
@@ -166,9 +164,6 @@ public class UserPane {
         row5Constraints.setPercentHeight(20);
         gp.getRowConstraints().addAll(row1Constraints, row2Constraints, row3Constraints, row4Constraints, row5Constraints);
 //        gp.setStyle("-fx-background-color: white; -fx-grid-lines-visible: true");
-//        VBox vBox = new VBox();
-//        GridPane gp1 = new GridPane();
-//        vBox.getChildren().addAll(gp, gp1);
         Scene scene = new Scene(gp, WIDTH, HEIGHT, Color.WHITE);
         gp.add(menuBar, 0, 0);
         gp.setColumnSpan(menuBar, 2);

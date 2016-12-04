@@ -27,7 +27,7 @@ public interface WallpaperHandler {
      */
     public void downloadWallpaperToLocal(BingHttpClient bingHttpClient);
 
-    public Image getBingTodayImage();
+    public Image getBingTodayImage(BingHttpClient bingHttpClient);
 
-    public String getBingTodayImgFilePath();
+    public String getBingLatestImgFilePath(BingHttpClient bingHttpClient);
 }
