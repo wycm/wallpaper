@@ -68,9 +68,9 @@ public class FileUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (filePath.startsWith("/")){
-            filePath = filePath.substring(1);
-        }
+//        if (filePath.startsWith("/")){
+//            filePath = filePath.substring(1);
+//        }
         return filePath;
     }
 }

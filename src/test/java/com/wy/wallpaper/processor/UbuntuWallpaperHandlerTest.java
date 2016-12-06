@@ -12,4 +12,9 @@ public class UbuntuWallpaperHandlerTest {
         WallpaperHandler wallpaperHandler = WallpaperHandlerFactory.createWallpaperHandler();
         wallpaperHandler.createScript();
     }
+    @Test
+    public void testDeleteScript(){
+        WallpaperHandler wallpaperHandler = WallpaperHandlerFactory.createWallpaperHandler();
+        wallpaperHandler.deleteScript();
+    }
 }
