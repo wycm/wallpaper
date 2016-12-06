@@ -48,7 +48,7 @@ public class UserPane {
 
     private static String currentId = "";
 
-    private static boolean autoUpdateFlag = FileUtils.winScriptExists();
+    private static boolean autoUpdateFlag = handler.scriptExists();
 
     private static ImageView iconImageView = new ImageView(new Image("icon1.jpg"));
     /**
@@ -96,13 +96,13 @@ public class UserPane {
                     System.out.println("开机自动更新壁纸");
                     item.setText("取消自动更新壁纸");
                     item.setGraphic(iconImageView);
-                    FileUtils.createWinScript();
+                    handler.createScript();
                 }
                 else {
                     System.out.println("取消自动更新壁纸");
                     item.setText("自动更新壁纸");
                     item.setGraphic(null);
-                    FileUtils.deleteWinScript();
+                    handler.deleteScript();
                 }
                 autoUpdateFlag = !autoUpdateFlag;
             }

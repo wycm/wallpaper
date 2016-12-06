@@ -73,36 +73,4 @@ public class FileUtils {
         }
         return filePath;
     }
-    public static void createWinScript(){
-        String scriptContent = Config.properties.getProperty("winScript");
-        scriptContent = scriptContent.replaceAll("\\$\\{jarAbsolutePath\\}", getJARPath());
-        File file = new File(Constants.WIN_STARTUP_DIR + "/wallpaper.bat");
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(file);
-            fos.write(scriptContent.getBytes());
-            fos.flush();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    public static void deleteWinScript(){
-        File file = new File(Constants.WIN_STARTUP_DIR + "/wallpaper.bat");
-        if (file.exists()){
-            file.delete();
-        }
-    }
-    public static boolean winScriptExists(){
-        File file = new File(Constants.WIN_STARTUP_DIR + "/wallpaper.bat");
-        System.out.println(file.exists());
-        return file.exists();
-    }
 }

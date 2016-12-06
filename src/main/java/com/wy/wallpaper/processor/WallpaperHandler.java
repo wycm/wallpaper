@@ -30,4 +30,13 @@ public interface WallpaperHandler {
     public Image getBingTodayImage(BingHttpClient bingHttpClient);
 
     public String getBingLatestImgFilePath(BingHttpClient bingHttpClient);
+
+    /**
+     * 创建开机执行的脚本
+     */
+    public void createScript();
+
+    public void deleteScript();
+
+    public boolean scriptExists();
 }

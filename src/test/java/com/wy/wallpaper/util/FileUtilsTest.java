@@ -10,8 +10,4 @@ public class FileUtilsTest {
     public void testGetProjectPath(){
         FileUtils.getProjectPath();
     }
-    @Test
-    public void testCreateWinScript(){
-        FileUtils.createWinScript();
-    }
 }
