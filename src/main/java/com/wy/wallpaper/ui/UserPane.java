@@ -61,11 +61,7 @@ public class UserPane {
         imageView = new ImageView("loading.gif");
         bp.setCenter(imageView);
         Scene scene = new Scene(bp, WIDTH, HEIGHT, Color.WHITE);
-        stage.setResizable(true);
-        stage.setScene(scene);
-        stage.setTitle("wallpaper");
-        stage.setResizable(false);
-        stage.show();
+        showStage(stage, scene);
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
@@ -168,7 +164,9 @@ public class UserPane {
         gp.add(menuBar, 0, 0);
         gp.setColumnSpan(menuBar, 2);
         GridPane.setMargin(menuBar, new Insets(0, 0, 110, 0));
-        stage.setResizable(true);
+        showStage(stage, scene);
+    }
+    public static void showStage(Stage stage, Scene scene){
         stage.setScene(scene);
         stage.show();
         stage.setTitle("wallpaper");
