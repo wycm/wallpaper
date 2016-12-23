@@ -6,6 +6,7 @@
 
 ##功能
 * 设置必应壁纸为桌面背景（目前仅测试了Ubuntu和Windows10系统）
+* 开机自动更新桌面背景为最新必应壁纸（暂时只支持Windows10系统)
 
 ##工程导入(maven)
 * git clone https://github.com/wycm/wallpaper 克隆项目到本地 
