@@ -64,7 +64,7 @@ public class UserPane {
         stage.setResizable(true);
         stage.setScene(scene);
         stage.setTitle("wallpaper");
-        stage.setResizable(false);
+//        stage.setResizable(false);
         stage.show();
         Task<Void> task = new Task<Void>() {
             @Override
@@ -172,7 +172,7 @@ public class UserPane {
         stage.setScene(scene);
         stage.show();
         stage.setTitle("wallpaper");
-        stage.setResizable(false);
+//        stage.setResizable(false);
     }
     private static MenuItem getMenuItemForLine(String menuName, final Line line) {
 

@@ -15,7 +15,7 @@ import java.util.List;
  * gsettings set org.gnome.desktop.background picture-uri file:///home/serrano/Pictures/y.jpg
  */
 public class UbuntuWallpaperHandler extends SimpleWallpaperHandler {
-    private File scriptFile = new File("/etc/rc.local");
+    private File scriptFile = new File("/etc/rc.d/rc.local");
     @Override
     public void setWallpaper(String path) {
         String command = "gsettings set org.gnome.desktop.background picture-uri file://" + path;
